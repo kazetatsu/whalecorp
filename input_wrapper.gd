@@ -1,5 +1,6 @@
 extends Node
 
+signal toggled
 var move = Vector2.ZERO
 
 # LRUD
@@ -38,3 +39,6 @@ func _input(event: InputEvent) -> void:
 		_move_pressed[2] &= 0xFE
 	if event.is_action_released("move_down"):
 		_move_pressed[3] &= 0xFE
+
+	if event.is_action_released("toggle"):
+		toggled.emit()

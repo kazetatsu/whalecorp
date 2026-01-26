@@ -25,7 +25,7 @@ func _ready() -> void:
 		square.position.x = pivot + i * width
 		squares.append(square)
 	print(squares[0].is_visible_in_tree())
-	timer = get_node("../Timer")
+	timer = $Timer
 	timer.timeout.connect(_on_timer_timeout)
 
 
@@ -47,7 +47,8 @@ func _on_timer_timeout() -> void:
 		squares.pop_back()
 
 
-func _on_left_edge_player_leached() -> void:
+func _on_level_shifted_left() -> void:
+	timer.start()
 	vel = - width / timer.wait_time
 	var square = original_square.duplicate()
 	add_child(square)
@@ -55,7 +56,8 @@ func _on_left_edge_player_leached() -> void:
 	squares.insert(0, square)
 
 
-func _on_right_edge_player_leached() -> void:
+func _on_level_shifted_right() -> void:
+	timer.start()
 	vel = width / timer.wait_time
 	var square = original_square.duplicate()
 	add_child(square)

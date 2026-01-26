@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://ylwgg1mn87j8"]
+[gd_scene load_steps=11 format=3 uid="uid://ylwgg1mn87j8"]
 
 [ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_0b4ue"]
+[ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://level.gd" id="1_i2t4f"]
 [ext_resource type="Texture2D" uid="uid://b7pllg00doc56" path="res://arts_debug/background.png" id="1_u52ul"]
-[ext_resource type="Script" uid="uid://dcw7kmqaax60r" path="res://player.gd" id="3_f2txt"]
+[ext_resource type="Script" uid="uid://ct32tbgbn2a2m" path="res://employee_bundle.gd" id="2_n6hdu"]
+[ext_resource type="Script" uid="uid://dcw7kmqaax60r" path="res://president.gd" id="3_f2txt"]
 [ext_resource type="Script" uid="uid://br3612dkhsou8" path="res://input_wrapper.gd" id="4_1ainy"]
-[ext_resource type="Script" uid="uid://c2o2bidehyfcu" path="res://square_edge.gd" id="5_1ainy"]
-[ext_resource type="Script" uid="uid://o86o41onun1g" path="res://mini_map.gd" id="5_f2txt"]
+[ext_resource type="Script" uid="uid://o86o41onun1g" path="res://mini_map_scroller.gd" id="5_f2txt"]
+[ext_resource type="Script" uid="uid://db0hubjb6m1i6" path="res://employee.gd" id="8_km5ld"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0b4ue"]
 size = Vector2(70, 126)
@@ -14,6 +16,7 @@ size = Vector2(70, 126)
 size = Vector2(98, 648)
 
 [node name="Level" type="Node2D"]
+script = ExtResource("1_i2t4f")
 
 [node name="White" type="Sprite2D" parent="."]
 modulate = Color(0.049709372, 0.045683004, 0.16073346, 1)
@@ -21,54 +24,94 @@ position = Vector2(431, 328.39996)
 scale = Vector2(1.6835936, 1.2828125)
 texture = ExtResource("1_0b4ue")
 
+[node name="Employees" type="Node" parent="."]
+script = ExtResource("2_n6hdu")
+
+[node name="DebugEmployee" type="Node2D" parent="Employees"]
+position = Vector2(356, 321)
+script = ExtResource("8_km5ld")
+
+[node name="Timer" type="Timer" parent="Employees/DebugEmployee"]
+one_shot = true
+autostart = true
+
+[node name="White" type="Sprite2D" parent="Employees/DebugEmployee"]
+rotation = 0.7533182
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_0b4ue")
+
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(432, 324)
 scale = Vector2(1.3, 1.3)
 texture = ExtResource("1_u52ul")
 
-[node name="Player" type="Node2D" parent="."]
-position = Vector2(262, 235)
+[node name="President" type="Node2D" parent="."]
+position = Vector2(149, 424)
 script = ExtResource("3_f2txt")
 speed = 450.0
 
-[node name="InputWrapper" type="Node" parent="Player"]
+[node name="InputWrapper" type="Node" parent="President"]
 script = ExtResource("4_1ainy")
 
-[node name="Skin" type="Sprite2D" parent="Player"]
+[node name="Skin" type="Sprite2D" parent="President"]
 scale = Vector2(0.13671875, 0.24609375)
 texture = ExtResource("1_0b4ue")
 
-[node name="Area2D" type="Area2D" parent="Player"]
+[node name="Area2D" type="Area2D" parent="President"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="President/Area2D"]
 shape = SubResource("RectangleShape2D_0b4ue")
 
 [node name="RightEdge" type="Area2D" parent="."]
-script = ExtResource("5_1ainy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightEdge"]
 position = Vector2(811, 326)
 shape = SubResource("RectangleShape2D_f2txt")
 
 [node name="LeftEdge" type="Area2D" parent="."]
-script = ExtResource("5_1ainy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftEdge"]
 position = Vector2(49, 326)
 shape = SubResource("RectangleShape2D_f2txt")
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
 [node name="MiniMap" type="Node2D" parent="."]
+
+[node name="Scroller" type="Node2D" parent="MiniMap"]
 script = ExtResource("5_f2txt")
 
-[node name="Square" type="Sprite2D" parent="MiniMap"]
+[node name="Square" type="Sprite2D" parent="MiniMap/Scroller"]
 modulate = Color(0.67481464, 0.67481464, 0.6748146, 1)
 position = Vector2(403.99997, 60.999992)
 scale = Vector2(0.23242188, 0.23242188)
 texture = ExtResource("1_u52ul")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.3
+[node name="Timer" type="Timer" parent="MiniMap/Scroller"]
+wait_time = 0.2
 one_shot = true
 
-[connection signal="player_leached" from="RightEdge" to="MiniMap" method="_on_right_edge_player_leached"]
-[connection signal="player_leached" from="LeftEdge" to="MiniMap" method="_on_left_edge_player_leached"]
+[node name="Frame" type="Node2D" parent="MiniMap"]
+
+[node name="White" type="Sprite2D" parent="MiniMap/Frame"]
+position = Vector2(431.00003, 115)
+scale = Vector2(0.24218749, 0.029296907)
+texture = ExtResource("1_0b4ue")
+
+[node name="White2" type="Sprite2D" parent="MiniMap/Frame"]
+position = Vector2(430.99997, 9)
+scale = Vector2(0.23144534, 0.02050782)
+texture = ExtResource("1_0b4ue")
+
+[connection signal="shifted_left" from="." to="President" method="_on_level_shifted_left"]
+[connection signal="shifted_left" from="." to="MiniMap/Scroller" method="_on_level_shifted_left"]
+[connection signal="shifted_right" from="." to="President" method="_on_level_shifted_right"]
+[connection signal="shifted_right" from="." to="MiniMap/Scroller" method="_on_level_shifted_right"]
+[connection signal="near_enogh" from="Employees" to="President" method="_on_employees_near_enogh"]
+[connection signal="timeout" from="Employees/DebugEmployee/Timer" to="Employees/DebugEmployee" method="_on_timer_timeout"]
+[connection signal="request_to_measure" from="President" to="Employees" method="_on_president_request_to_measure"]
+[connection signal="area_entered" from="RightEdge" to="." method="_on_right_edge_area_entered"]
+[connection signal="area_entered" from="LeftEdge" to="." method="_on_left_edge_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

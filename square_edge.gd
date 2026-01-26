@@ -8,7 +8,8 @@ var timer:Timer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	timer = get_node("../Timer")
-	self.area_entered.connect(_on_area_entered)
+	timer.timeout.connect(_on_timer_timeout)
+	area_entered.connect(_on_area_entered)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,6 +18,10 @@ func _process(_delta: float) -> void:
 
 
 func _on_area_entered(_area: Area2D) -> void:
-	if timer.is_stopped():
-		timer.start()
-		player_leached.emit()
+	timer.start()
+	set_deferred("monitoring", false)
+	player_leached.emit()
+
+
+func _on_timer_timeout() -> void:
+	monitoring = true
