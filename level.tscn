@@ -45,10 +45,17 @@ position = Vector2(432, 324)
 scale = Vector2(1.3, 1.3)
 texture = ExtResource("1_u52ul")
 
-[node name="President" type="Node2D" parent="."]
+[node name="President" type="Area2D" parent="."]
 position = Vector2(149, 424)
 script = ExtResource("3_f2txt")
-speed = 450.0
+speed = 500.0
+
+[node name="Timer" type="Timer" parent="President"]
+wait_time = 0.25
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="President"]
+shape = SubResource("RectangleShape2D_0b4ue")
 
 [node name="InputWrapper" type="Node" parent="President"]
 script = ExtResource("4_1ainy")
@@ -56,11 +63,6 @@ script = ExtResource("4_1ainy")
 [node name="Skin" type="Sprite2D" parent="President"]
 scale = Vector2(0.13671875, 0.24609375)
 texture = ExtResource("1_0b4ue")
-
-[node name="Area2D" type="Area2D" parent="President"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="President/Area2D"]
-shape = SubResource("RectangleShape2D_0b4ue")
 
 [node name="RightEdge" type="Area2D" parent="."]
 
@@ -105,13 +107,8 @@ position = Vector2(430.99997, 9)
 scale = Vector2(0.23144534, 0.02050782)
 texture = ExtResource("1_0b4ue")
 
-[connection signal="shifted_left" from="." to="President" method="_on_level_shifted_left"]
-[connection signal="shifted_left" from="." to="MiniMap/Scroller" method="_on_level_shifted_left"]
-[connection signal="shifted_right" from="." to="President" method="_on_level_shifted_right"]
-[connection signal="shifted_right" from="." to="MiniMap/Scroller" method="_on_level_shifted_right"]
-[connection signal="near_enogh" from="Employees" to="President" method="_on_employees_near_enogh"]
+[connection signal="started_following" from="Employees" to="President" method="_on_employees_started_following"]
 [connection signal="timeout" from="Employees/DebugEmployee/Timer" to="Employees/DebugEmployee" method="_on_timer_timeout"]
-[connection signal="request_to_measure" from="President" to="Employees" method="_on_president_request_to_measure"]
-[connection signal="area_entered" from="RightEdge" to="." method="_on_right_edge_area_entered"]
-[connection signal="area_entered" from="LeftEdge" to="." method="_on_left_edge_area_entered"]
+[connection signal="left_follower" from="President" to="Employees" method="_on_president_left_follower"]
+[connection signal="requested_following" from="President" to="Employees" method="_on_president_requested_following"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

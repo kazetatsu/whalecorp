@@ -1,11 +1,15 @@
 extends Node2D
 
+var square_id:int = 0
+
 var original_square:Sprite2D
 var squares:Array[Sprite2D]
 var width:float
 var pivot:float
 var num:int
 var vel:float
+
+var level:Node2D
 var timer:Timer
 
 
@@ -24,7 +28,8 @@ func _ready() -> void:
 		add_child(square)
 		square.position.x = pivot + i * width
 		squares.append(square)
-	print(squares[0].is_visible_in_tree())
+
+	level = find_parent("*Level*")
 	timer = $Timer
 	timer.timeout.connect(_on_timer_timeout)
 
@@ -33,21 +38,14 @@ func _ready() -> void:
 func _process(dt: float) -> void:
 	if not timer.is_stopped():
 		position.x -= vel * dt
-
-
-func _on_timer_timeout() -> void:
-	position.x = 0
-	if vel > 0: # Slide right
-		for square in squares:
-			square.position.x -= width
-		squares.pop_front().queue_free()
 	else:
-		for square in squares:
-			square.position.x += width
-		squares.pop_back()
+		if square_id < level.get_square_id():
+			_start_shift_right()
+		if square_id > level.get_square_id():
+			_start_shift_left()
 
 
-func _on_level_shifted_left() -> void:
+func _start_shift_left() -> void:
 	timer.start()
 	vel = - width / timer.wait_time
 	var square = original_square.duplicate()
@@ -56,10 +54,24 @@ func _on_level_shifted_left() -> void:
 	squares.insert(0, square)
 
 
-func _on_level_shifted_right() -> void:
+func _start_shift_right() -> void:
 	timer.start()
 	vel = width / timer.wait_time
 	var square = original_square.duplicate()
 	add_child(square)
 	square.position.x = pivot + num * width
 	squares.append(square)
+
+
+func _on_timer_timeout() -> void:
+	position.x = 0
+	if vel > 0: # Slide right
+		for square in squares:
+			square.position.x -= width
+		squares.pop_front().queue_free()
+		square_id += 1
+	else:
+		for square in squares:
+			square.position.x += width
+		squares.pop_back().queue_free()
+		square_id -= 1
