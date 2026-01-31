@@ -32,5 +32,4 @@ func _on_president_requested_following(target:Node2D) -> void:
 
 func _on_president_left_follower() -> void:
 	for employee in get_children():
-		print("hoge")
 		employee.follow_target = null

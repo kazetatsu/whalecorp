@@ -1,13 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://ylwgg1mn87j8"]
+[gd_scene load_steps=16 format=3 uid="uid://ylwgg1mn87j8"]
 
 [ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_0b4ue"]
-[ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://level.gd" id="1_i2t4f"]
+[ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://scripts/level.gd" id="1_i2t4f"]
 [ext_resource type="Texture2D" uid="uid://b7pllg00doc56" path="res://arts_debug/background.png" id="1_u52ul"]
-[ext_resource type="Script" uid="uid://ct32tbgbn2a2m" path="res://employee_bundle.gd" id="2_n6hdu"]
-[ext_resource type="Script" uid="uid://dcw7kmqaax60r" path="res://president.gd" id="3_f2txt"]
-[ext_resource type="Script" uid="uid://br3612dkhsou8" path="res://input_wrapper.gd" id="4_1ainy"]
-[ext_resource type="Script" uid="uid://o86o41onun1g" path="res://mini_map_scroller.gd" id="5_f2txt"]
-[ext_resource type="Script" uid="uid://db0hubjb6m1i6" path="res://employee.gd" id="8_km5ld"]
+[ext_resource type="Script" uid="uid://ct32tbgbn2a2m" path="res://scripts/employee/bundle.gd" id="2_n6hdu"]
+[ext_resource type="Script" uid="uid://dcw7kmqaax60r" path="res://scripts/president.gd" id="3_f2txt"]
+[ext_resource type="Script" uid="uid://br3612dkhsou8" path="res://scripts/input_wrapper.gd" id="4_1ainy"]
+[ext_resource type="Script" uid="uid://c0jkndtu73htk" path="res://scripts/employee/leopard_shark.gd" id="4_km5ld"]
+[ext_resource type="Texture2D" uid="uid://cg048ygr3ormg" path="res://arts_debug/whale_debug/clear.png" id="5_8b0r0"]
+[ext_resource type="Script" uid="uid://o86o41onun1g" path="res://scripts/mini_map_scroller.gd" id="5_f2txt"]
+[ext_resource type="Texture2D" uid="uid://o6o6cp2ufcvw" path="res://arts_debug/whale_debug/bone.png" id="6_h6smj"]
+[ext_resource type="Script" uid="uid://gb4xnpwvmy54" path="res://scripts/whale_bundle.gd" id="9_2orkt"]
+[ext_resource type="Texture2D" uid="uid://c1tm0dh536u4m" path="res://arts_debug/whale_debug/meat.png" id="9_8cye3"]
+[ext_resource type="Texture2D" uid="uid://bwnkv0muf66r3" path="res://arts_debug/whale_debug/skin.png" id="10_2orkt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0b4ue"]
 size = Vector2(70, 126)
@@ -24,12 +29,57 @@ position = Vector2(431, 328.39996)
 scale = Vector2(1.6835936, 1.2828125)
 texture = ExtResource("1_0b4ue")
 
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(432, 324)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("1_u52ul")
+
+[node name="Whales" type="Node2D" parent="."]
+texture_filter = 1
+script = ExtResource("9_2orkt")
+
+[node name="Clear" type="Sprite2D" parent="Whales"]
+clip_children = 1
+centered = false
+
+[node name="Clear" type="Sprite2D" parent="Whales/Clear"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("5_8b0r0")
+
+[node name="Bone" type="Sprite2D" parent="Whales"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+
+[node name="Meat" type="Sprite2D" parent="Whales"]
+clip_children = 1
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+
+[node name="Skin" type="Sprite2D" parent="Whales"]
+clip_children = 1
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+
 [node name="Employees" type="Node" parent="."]
 script = ExtResource("2_n6hdu")
 
 [node name="DebugEmployee" type="Node2D" parent="Employees"]
 position = Vector2(356, 321)
-script = ExtResource("8_km5ld")
+script = ExtResource("4_km5ld")
 
 [node name="Timer" type="Timer" parent="Employees/DebugEmployee"]
 one_shot = true
@@ -40,13 +90,8 @@ rotation = 0.7533182
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_0b4ue")
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(432, 324)
-scale = Vector2(1.3, 1.3)
-texture = ExtResource("1_u52ul")
-
 [node name="President" type="Area2D" parent="."]
-position = Vector2(149, 424)
+position = Vector2(186, 442)
 script = ExtResource("3_f2txt")
 speed = 500.0
 
@@ -67,18 +112,14 @@ texture = ExtResource("1_0b4ue")
 [node name="RightEdge" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightEdge"]
-position = Vector2(811, 326)
+position = Vector2(912, 323)
 shape = SubResource("RectangleShape2D_f2txt")
 
 [node name="LeftEdge" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftEdge"]
-position = Vector2(49, 326)
+position = Vector2(-48, 326)
 shape = SubResource("RectangleShape2D_f2txt")
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.25
-one_shot = true
 
 [node name="MiniMap" type="Node2D" parent="."]
 
@@ -111,4 +152,3 @@ texture = ExtResource("1_0b4ue")
 [connection signal="timeout" from="Employees/DebugEmployee/Timer" to="Employees/DebugEmployee" method="_on_timer_timeout"]
 [connection signal="left_follower" from="President" to="Employees" method="_on_president_left_follower"]
 [connection signal="requested_following" from="President" to="Employees" method="_on_president_requested_following"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
