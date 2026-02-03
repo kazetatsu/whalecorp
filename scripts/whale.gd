@@ -11,6 +11,8 @@ const PROGRESS_BONE  := 2
 const PROGRESS_CLEAR := 3
 const PROGRESS_INACTIVE := -1
 
+
+var stamp := 0
 var raw_progress:PackedByteArray
 
 
@@ -53,3 +55,5 @@ func set_progress(row:int, col:int, progress:int) -> void:
 
 	raw_progress[i+1] |= (0x01 & progress) << s
 	raw_progress[i+2] |= ((0x02 & progress) >> 1) << s
+
+	stamp += 1

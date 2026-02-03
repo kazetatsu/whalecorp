@@ -3,9 +3,12 @@ extends "res://scripts/employee/base.gd"
 @export var speed:float = 500
 @export var near_dist:float = 50
 
+var whales:WhaleBundle
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	whales = find_parent("Level").find_child("Whales")
 	super._ready()
 
 
@@ -21,7 +24,8 @@ func _process(delta: float) -> void:
 			position += speed * dp.normalized() * delta
 			_clip_position()
 		# Near enough to president => Eat whale.
-		#else:
+		else:
+			whales.try_update_progress(whales.get_nearest_grid(position), Whale.PROGRESS_MEAT)
 
 	super._process(delta) # Set visibility.
 

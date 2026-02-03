@@ -1,10 +1,35 @@
 extends Node2D
 
+class_name WhaleBundle
+
 var level:Level
 
 var whales:Dictionary[int,Whale]
 
 var square_id = null
+
+func try_update_progress(grid:Vector2i, progress:int) -> bool:
+	if not whales.has(square_id):
+		return false
+	whales[square_id].set_progress(grid.x, grid.y, progress)
+	var mask_texs:Array[ImageTexture] = [$Skin.texture, $Meat.texture, $Bone.texture]
+	var mask_imgs:Array[Image] = []
+	for tex in mask_texs:
+		mask_imgs.append(tex.get_image())
+	for i in progress:
+		mask_imgs[i].set_pixel(grid.x, grid.y, Color.TRANSPARENT)
+	for i in 3:
+		mask_texs[i].set_image(mask_imgs[i])
+	return true
+
+
+func get_nearest_grid(pos:Vector2) -> Vector2i:
+	var p = pos / get_viewport_rect().size
+	var ret = Vector2i()
+	ret.x = floori(p.x * Whale.WIDTH)
+	ret.y = floori(p.y * Whale.HEIGHT)
+	return ret
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
