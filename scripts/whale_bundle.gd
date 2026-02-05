@@ -8,18 +8,18 @@ var whales:Dictionary[int,Whale]
 
 var square_id = null
 
+var masks:Array[Sprite2D]
+
 func try_update_progress(grid:Vector2i, progress:int) -> bool:
 	if not whales.has(square_id):
 		return false
+	#var whale = whales[square_id]
+	#if progress > whale.get_progress(grid.x, grid.y):
 	whales[square_id].set_progress(grid.x, grid.y, progress)
-	var mask_texs:Array[ImageTexture] = [$Skin.texture, $Meat.texture, $Bone.texture]
-	var mask_imgs:Array[Image] = []
-	for tex in mask_texs:
-		mask_imgs.append(tex.get_image())
 	for i in progress:
-		mask_imgs[i].set_pixel(grid.x, grid.y, Color.TRANSPARENT)
-	for i in 3:
-		mask_texs[i].set_image(mask_imgs[i])
+		var mask_img = masks[i].texture.get_image()
+		mask_img.set_pixel(grid.x, grid.y, Color.TRANSPARENT)
+		masks[i].texture.set_image(mask_img)
 	return true
 
 
@@ -41,17 +41,23 @@ func _ready() -> void:
 
 	# Create mask image for each layer of whale
 	var viewport_rect = get_viewport_rect()
-	for child:Sprite2D in get_children():
-		var mask = Image.create(Whale.WIDTH, Whale.HEIGHT, false, Image.FORMAT_LA8)
-		mask.fill(Color.WHITE)
-		child.texture = ImageTexture.create_from_image(mask)
-		var mask_rect = child.get_rect()
-		var grand_child:Node2D = child.get_child(0)
-		var p = grand_child.global_position
-		var s = grand_child.global_scale
-		child.scale = viewport_rect.size / mask_rect.size
-		grand_child.global_position = p
-		grand_child.global_scale = s
+	masks = [$Skin, $Meat, $Bone]
+	for mask in masks:
+		var mask_img = Image.create(Whale.WIDTH, Whale.HEIGHT, false, Image.FORMAT_LA8)
+		mask_img.fill(Color.WHITE)
+		mask.texture = ImageTexture.create_from_image(mask_img)
+		var mask_rect = mask.get_rect()
+		var positions:Array[Vector2] = []
+		var scales:Array[Vector2] = []
+		for i:int in mask.get_child_count():
+			var grand_child = mask.get_child(i)
+			positions.append(grand_child.global_position)
+			scales.append(grand_child.global_scale)
+		mask.scale = viewport_rect.size / mask_rect.size
+		for i:int in mask.get_child_count():
+			var grand_child = mask.get_child(i)
+			grand_child.global_position = positions[i]
+			grand_child.global_scale = scales[i]
 
 	hide()
 
@@ -62,16 +68,15 @@ func _process(_delta: float) -> void:
 		square_id = level.get_square_id()
 		if whales.has(square_id):
 			var whale = whales[square_id]
-			var mask_texs:Array[ImageTexture] = [$Skin.texture, $Meat.texture, $Bone.texture]
 			var mask_imgs:Array[Image] = []
-			for tex in mask_texs:
-				mask_imgs.append(tex.get_image())
+			for mask in masks:
+				mask_imgs.append(mask.texture.get_image())
 			for r in Whale.HEIGHT:
 				for c in Whale.WIDTH:
 					for i in whale.get_progress(r,c):
 						mask_imgs[i].set_pixel(r, c, Color.TRANSPARENT)
 			for i in 3:
-				mask_texs[i].set_image(mask_imgs[i])
+				masks[i].texture.set_image(mask_imgs[i])
 			show()
 		else:
 			hide()
