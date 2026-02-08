@@ -6,29 +6,35 @@ var level:Level
 
 var whales:Dictionary[int,Whale]
 
-var square_id = null
+var _square_id = null
 
 var masks:Array[Sprite2D]
 
-func try_update_progress(grid:Vector2i, progress:int) -> bool:
-	if not whales.has(square_id):
-		return false
-	#var whale = whales[square_id]
-	#if progress > whale.get_progress(grid.x, grid.y):
+func set_progress(square_id:int, position:Vector2, progress:int) -> void:
+	if not whales.has(square_id): return
+	var grid = _get_nearest_grid(position)
 	whales[square_id].set_progress(grid.x, grid.y, progress)
+
+	if square_id != _square_id: return
 	for i in progress:
 		var mask_img = masks[i].texture.get_image()
 		mask_img.set_pixel(grid.x, grid.y, Color.TRANSPARENT)
 		masks[i].texture.set_image(mask_img)
-	return true
 
 
-func get_nearest_grid(pos:Vector2) -> Vector2i:
-	var p = pos / get_viewport_rect().size
-	var ret = Vector2i()
-	ret.x = floori(p.x * Whale.WIDTH)
-	ret.y = floori(p.y * Whale.HEIGHT)
-	return ret
+func get_progress(square_id:int, position:Vector2) -> int:
+	if not whales.has(square_id):
+		return Whale.PROGRESS_CLEAR
+	var grid = _get_nearest_grid(position)
+	return whales[square_id].get_progress(grid.x, grid.y)
+
+
+func _get_nearest_grid(position:Vector2) -> Vector2i:
+	var p = position / get_viewport_rect().size
+	return Vector2i(
+		floori(p.x * Whale.WIDTH),
+		floori(p.y * Whale.HEIGHT)
+	)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -64,10 +70,11 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	if level.get_square_id() != square_id:
-		square_id = level.get_square_id()
-		if whales.has(square_id):
-			var whale = whales[square_id]
+	# Initialize masks' texture.
+	if level.get_square_id() != _square_id:
+		_square_id = level.get_square_id()
+		if whales.has(_square_id):
+			var whale = whales[_square_id]
 			var mask_imgs:Array[Image] = []
 			for mask in masks:
 				mask_imgs.append(mask.texture.get_image())

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ylwgg1mn87j8"]
+[gd_scene load_steps=22 format=3 uid="uid://ylwgg1mn87j8"]
 
 [ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_0b4ue"]
 [ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://scripts/level.gd" id="1_i2t4f"]
@@ -13,6 +13,48 @@
 [ext_resource type="Script" uid="uid://gb4xnpwvmy54" path="res://scripts/whale_bundle.gd" id="9_2orkt"]
 [ext_resource type="Texture2D" uid="uid://c1tm0dh536u4m" path="res://arts_debug/whale_debug/meat.png" id="9_8cye3"]
 [ext_resource type="Texture2D" uid="uid://bwnkv0muf66r3" path="res://arts_debug/whale_debug/skin.png" id="10_2orkt"]
+[ext_resource type="Texture2D" uid="uid://lvpndbsy5fs" path="res://arts_debug/same.png" id="11_h6smj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pxul"]
+atlas = ExtResource("11_h6smj")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6smj"]
+atlas = ExtResource("11_h6smj")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4c15r"]
+atlas = ExtResource("11_h6smj")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fedht"]
+atlas = ExtResource("11_h6smj")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ait7k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pxul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6smj")
+}],
+"loop": true,
+"name": &"eat",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4c15r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fedht")
+}],
+"loop": true,
+"name": &"follow",
+"speed": 3.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0b4ue"]
 size = Vector2(70, 126)
@@ -81,14 +123,15 @@ script = ExtResource("2_n6hdu")
 position = Vector2(356, 321)
 script = ExtResource("4_km5ld")
 
-[node name="Timer" type="Timer" parent="Employees/DebugEmployee"]
-one_shot = true
-autostart = true
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Employees/DebugEmployee"]
+scale = Vector2(0.43749994, 0.43749994)
+sprite_frames = SubResource("SpriteFrames_ait7k")
+animation = &"follow"
+frame_progress = 0.42498064
 
-[node name="White" type="Sprite2D" parent="Employees/DebugEmployee"]
-rotation = 0.7533182
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_0b4ue")
+[node name="Timer" type="Timer" parent="Employees/DebugEmployee"]
+wait_time = 0.5
+one_shot = true
 
 [node name="President" type="Area2D" parent="."]
 position = Vector2(186, 442)
@@ -149,6 +192,5 @@ scale = Vector2(0.23144534, 0.02050782)
 texture = ExtResource("1_0b4ue")
 
 [connection signal="started_following" from="Employees" to="President" method="_on_employees_started_following"]
-[connection signal="timeout" from="Employees/DebugEmployee/Timer" to="Employees/DebugEmployee" method="_on_timer_timeout"]
 [connection signal="left_follower" from="President" to="Employees" method="_on_president_left_follower"]
 [connection signal="requested_following" from="President" to="Employees" method="_on_president_requested_following"]
