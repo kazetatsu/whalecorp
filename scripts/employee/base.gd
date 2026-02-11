@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name Employee
+
 var square_id = 0
 var level:Node2D
 

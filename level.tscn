@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://ylwgg1mn87j8"]
+[gd_scene load_steps=23 format=3 uid="uid://ylwgg1mn87j8"]
 
 [ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_0b4ue"]
 [ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://scripts/level.gd" id="1_i2t4f"]
@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://ct32tbgbn2a2m" path="res://scripts/employee/bundle.gd" id="2_n6hdu"]
 [ext_resource type="Script" uid="uid://dcw7kmqaax60r" path="res://scripts/president.gd" id="3_f2txt"]
 [ext_resource type="Script" uid="uid://br3612dkhsou8" path="res://scripts/input_wrapper.gd" id="4_1ainy"]
-[ext_resource type="Script" uid="uid://c0jkndtu73htk" path="res://scripts/employee/leopard_shark.gd" id="4_km5ld"]
+[ext_resource type="Script" uid="uid://c0jkndtu73htk" path="res://scripts/employee/shark.gd" id="4_km5ld"]
 [ext_resource type="Texture2D" uid="uid://cg048ygr3ormg" path="res://arts_debug/whale_debug/clear.png" id="5_8b0r0"]
 [ext_resource type="Script" uid="uid://o86o41onun1g" path="res://scripts/mini_map_scroller.gd" id="5_f2txt"]
 [ext_resource type="Texture2D" uid="uid://o6o6cp2ufcvw" path="res://arts_debug/whale_debug/bone.png" id="6_h6smj"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://c1tm0dh536u4m" path="res://arts_debug/whale_debug/meat.png" id="9_8cye3"]
 [ext_resource type="Texture2D" uid="uid://bwnkv0muf66r3" path="res://arts_debug/whale_debug/skin.png" id="10_2orkt"]
 [ext_resource type="Texture2D" uid="uid://lvpndbsy5fs" path="res://arts_debug/same.png" id="11_h6smj"]
+[ext_resource type="Script" uid="uid://jl1h5cpm4k7x" path="res://scripts/employee/crab.gd" id="12_v5j5c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5pxul"]
 atlas = ExtResource("11_h6smj")
@@ -119,17 +120,32 @@ texture = ExtResource("10_2orkt")
 [node name="Employees" type="Node" parent="."]
 script = ExtResource("2_n6hdu")
 
-[node name="DebugEmployee" type="Node2D" parent="Employees"]
+[node name="Shark" type="Node2D" parent="Employees"]
 position = Vector2(356, 321)
 script = ExtResource("4_km5ld")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Employees/DebugEmployee"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Employees/Shark"]
 scale = Vector2(0.43749994, 0.43749994)
 sprite_frames = SubResource("SpriteFrames_ait7k")
 animation = &"follow"
 frame_progress = 0.42498064
 
-[node name="Timer" type="Timer" parent="Employees/DebugEmployee"]
+[node name="Timer" type="Timer" parent="Employees/Shark"]
+wait_time = 0.5
+one_shot = true
+
+[node name="Crab" type="Node2D" parent="Employees"]
+position = Vector2(611, 267)
+script = ExtResource("12_v5j5c")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Employees/Crab"]
+modulate = Color(1, 0.279952, 0.541848, 1)
+scale = Vector2(0.43749994, 0.43749994)
+sprite_frames = SubResource("SpriteFrames_ait7k")
+animation = &"follow"
+frame_progress = 0.42498064
+
+[node name="Timer" type="Timer" parent="Employees/Crab"]
 wait_time = 0.5
 one_shot = true
 
