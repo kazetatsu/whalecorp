@@ -1,14 +1,15 @@
 extends Node
 
 signal started_following
+signal near_target
 
 @export var dist_near = 50.0
 
-var level:Node2D
+var level:Level
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	level = find_parent("*Level*")
+	level = find_parent("Level")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

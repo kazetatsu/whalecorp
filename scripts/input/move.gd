@@ -1,5 +1,7 @@
 extends Node
 
+class_name InputMove
+
 signal toggled
 var move = Vector2.ZERO
 
