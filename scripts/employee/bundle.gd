@@ -18,7 +18,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_president_requested_following(target:Node2D) -> void:
-	var nearest_employee:Node2D = null
+	var nearest_employee:Employee = null
 	var dist_min = dist_near
 	for employee in get_children():
 		if employee.square_id == level.get_square_id():
@@ -27,10 +27,10 @@ func _on_president_requested_following(target:Node2D) -> void:
 				nearest_employee = employee
 				dist_min = dist
 	if not nearest_employee == null:
-		nearest_employee.follow_target = target
+		nearest_employee.set_follow_target(target)
 		started_following.emit()
 
 
 func _on_president_left_follower() -> void:
-	for employee in get_children():
-		employee.follow_target = null
+	for employee:Employee in get_children():
+		employee.set_follow_target(null)

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2lc4vu4svrfm"]
+
+[ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_wy02c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s6g6e"]
+size = Vector2(514.2857, 514.2857)
+
+[node name="Debug" type="Node2D"]
+scale = Vector2(0.245, 0.245)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_s6g6e")
+
+[node name="White2" type="Sprite2D" parent="."]
+modulate = Color(0.15822569, 0.020979894, 0.17318332, 1)
+texture = ExtResource("1_wy02c")

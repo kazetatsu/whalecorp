@@ -6,6 +6,9 @@ var square_id = 0
 var level:Node2D
 
 var follow_target:Node2D = null
+func set_follow_target(node:Node2D) -> void:
+	follow_target = node
+
 var viewport_rect:Rect2
 
 func _ready() -> void:

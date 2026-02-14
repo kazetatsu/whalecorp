@@ -1,13 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://ylwgg1mn87j8"]
+[gd_scene load_steps=30 format=3 uid="uid://ylwgg1mn87j8"]
 
 [ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_0b4ue"]
 [ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://scripts/level.gd" id="1_i2t4f"]
 [ext_resource type="Texture2D" uid="uid://b7pllg00doc56" path="res://arts_debug/background.png" id="1_u52ul"]
 [ext_resource type="Script" uid="uid://ct32tbgbn2a2m" path="res://scripts/employee/bundle.gd" id="2_n6hdu"]
 [ext_resource type="Script" uid="uid://dcw7kmqaax60r" path="res://scripts/president.gd" id="3_f2txt"]
-[ext_resource type="Script" uid="uid://br3612dkhsou8" path="res://scripts/input_wrapper.gd" id="4_1ainy"]
+[ext_resource type="Script" uid="uid://br3612dkhsou8" path="res://scripts/input/move.gd" id="4_1ainy"]
 [ext_resource type="Script" uid="uid://c0jkndtu73htk" path="res://scripts/employee/shark.gd" id="4_km5ld"]
-[ext_resource type="Texture2D" uid="uid://cg048ygr3ormg" path="res://arts_debug/whale_debug/clear.png" id="5_8b0r0"]
 [ext_resource type="Script" uid="uid://o86o41onun1g" path="res://scripts/mini_map_scroller.gd" id="5_f2txt"]
 [ext_resource type="Texture2D" uid="uid://o6o6cp2ufcvw" path="res://arts_debug/whale_debug/bone.png" id="6_h6smj"]
 [ext_resource type="Script" uid="uid://gb4xnpwvmy54" path="res://scripts/whale_bundle.gd" id="9_2orkt"]
@@ -15,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://bwnkv0muf66r3" path="res://arts_debug/whale_debug/skin.png" id="10_2orkt"]
 [ext_resource type="Texture2D" uid="uid://lvpndbsy5fs" path="res://arts_debug/same.png" id="11_h6smj"]
 [ext_resource type="Script" uid="uid://jl1h5cpm4k7x" path="res://scripts/employee/crab.gd" id="12_v5j5c"]
+[ext_resource type="Texture2D" uid="uid://duj83pgrlvrbt" path="res://arts_debug/kani.png" id="13_5pxul"]
+[ext_resource type="Script" uid="uid://bnxqent27pn8i" path="res://scripts/input/interact.gd" id="17_fedht"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5pxul"]
 atlas = ExtResource("11_h6smj")
@@ -57,6 +58,51 @@ animations = [{
 "speed": 3.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ait7k"]
+radius = 25.0
+height = 108.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ait7k"]
+atlas = ExtResource("13_5pxul")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42xju"]
+atlas = ExtResource("13_5pxul")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7sqt"]
+atlas = ExtResource("13_5pxul")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilwjd"]
+atlas = ExtResource("13_5pxul")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y3bce"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ait7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42xju")
+}],
+"loop": true,
+"name": &"eat",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7sqt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ilwjd")
+}],
+"loop": true,
+"name": &"follow",
+"speed": 3.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0b4ue"]
 size = Vector2(70, 126)
 
@@ -81,20 +127,15 @@ texture = ExtResource("1_u52ul")
 texture_filter = 1
 script = ExtResource("9_2orkt")
 
-[node name="Clear" type="Sprite2D" parent="Whales"]
+[node name="ClearWhale" type="Sprite2D" parent="Whales"]
 clip_children = 1
 centered = false
-
-[node name="Clear" type="Sprite2D" parent="Whales/Clear"]
-position = Vector2(427, 358)
-scale = Vector2(0.48399997, 0.48399997)
-texture = ExtResource("5_8b0r0")
 
 [node name="Bone" type="Sprite2D" parent="Whales"]
 clip_children = 1
 centered = false
 
-[node name="Bone" type="Sprite2D" parent="Whales/Bone"]
+[node name="Whale" type="Sprite2D" parent="Whales/Bone"]
 position = Vector2(427, 358)
 scale = Vector2(0.48399997, 0.48399997)
 texture = ExtResource("6_h6smj")
@@ -103,7 +144,7 @@ texture = ExtResource("6_h6smj")
 clip_children = 1
 centered = false
 
-[node name="Meat" type="Sprite2D" parent="Whales/Meat"]
+[node name="Whale" type="Sprite2D" parent="Whales/Meat"]
 position = Vector2(427, 358)
 scale = Vector2(0.48399997, 0.48399997)
 texture = ExtResource("9_8cye3")
@@ -112,10 +153,12 @@ texture = ExtResource("9_8cye3")
 clip_children = 1
 centered = false
 
-[node name="Skin" type="Sprite2D" parent="Whales/Skin"]
+[node name="Whale" type="Sprite2D" parent="Whales/Skin"]
 position = Vector2(427, 358)
 scale = Vector2(0.484, 0.484)
 texture = ExtResource("10_2orkt")
+
+[node name="Blocks" type="Node2D" parent="Whales"]
 
 [node name="Employees" type="Node" parent="."]
 script = ExtResource("2_n6hdu")
@@ -128,22 +171,34 @@ script = ExtResource("4_km5ld")
 scale = Vector2(0.43749994, 0.43749994)
 sprite_frames = SubResource("SpriteFrames_ait7k")
 animation = &"follow"
-frame_progress = 0.42498064
+frame = 1
+frame_progress = 0.5226288
 
-[node name="Timer" type="Timer" parent="Employees/Shark"]
+[node name="TimerEat" type="Timer" parent="Employees/Shark"]
 wait_time = 0.5
 one_shot = true
+
+[node name="TimerPull" type="Timer" parent="Employees/Shark"]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="Employees/Shark"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Employees/Shark/Area2D"]
+position = Vector2(0, -1)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_ait7k")
 
 [node name="Crab" type="Node2D" parent="Employees"]
 position = Vector2(611, 267)
 script = ExtResource("12_v5j5c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Employees/Crab"]
-modulate = Color(1, 0.279952, 0.541848, 1)
-scale = Vector2(0.43749994, 0.43749994)
-sprite_frames = SubResource("SpriteFrames_ait7k")
+scale = Vector2(0.367, 0.367)
+sprite_frames = SubResource("SpriteFrames_y3bce")
 animation = &"follow"
-frame_progress = 0.42498064
+frame_progress = 0.9233472
 
 [node name="Timer" type="Timer" parent="Employees/Crab"]
 wait_time = 0.5
@@ -161,7 +216,7 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="President"]
 shape = SubResource("RectangleShape2D_0b4ue")
 
-[node name="InputWrapper" type="Node" parent="President"]
+[node name="InputMove" type="Node" parent="President"]
 script = ExtResource("4_1ainy")
 
 [node name="Skin" type="Sprite2D" parent="President"]
@@ -206,6 +261,9 @@ texture = ExtResource("1_0b4ue")
 position = Vector2(430.99997, 9)
 scale = Vector2(0.23144534, 0.02050782)
 texture = ExtResource("1_0b4ue")
+
+[node name="InputInteract" type="Node" parent="."]
+script = ExtResource("17_fedht")
 
 [connection signal="started_following" from="Employees" to="President" method="_on_employees_started_following"]
 [connection signal="left_follower" from="President" to="Employees" method="_on_president_left_follower"]
