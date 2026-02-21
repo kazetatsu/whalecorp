@@ -191,7 +191,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_ait7k")
 
 [node name="Crab" type="Node2D" parent="Employees"]
-position = Vector2(611, 267)
+position = Vector2(280, 500)
 script = ExtResource("12_v5j5c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Employees/Crab"]
@@ -203,6 +203,22 @@ frame_progress = 0.9233472
 [node name="Timer" type="Timer" parent="Employees/Crab"]
 wait_time = 0.5
 one_shot = true
+
+[node name="Label" type="Label" parent="Employees/Crab"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="President" type="Area2D" parent="."]
 position = Vector2(186, 442)
@@ -224,12 +240,14 @@ scale = Vector2(0.13671875, 0.24609375)
 texture = ExtResource("1_0b4ue")
 
 [node name="RightEdge" type="Area2D" parent="."]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightEdge"]
 position = Vector2(912, 323)
 shape = SubResource("RectangleShape2D_f2txt")
 
 [node name="LeftEdge" type="Area2D" parent="."]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftEdge"]
 position = Vector2(-48, 326)

@@ -82,3 +82,9 @@ func set_progress(x:int, y:int, progress:int) -> void:
 	progress_map[i] &= ~(0x03 << s)
 	# Write new progress
 	progress_map[i] |= (progress & 0x03) << s
+
+
+func get_clear_progress(x:int, y:int) -> int:
+	var i = y * 4 + x / 4
+	var s = (x % 4) * 2
+	return (clear_map[i] >> s) & 0x03

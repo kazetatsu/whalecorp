@@ -31,6 +31,13 @@ func get_progress(square_id:int, position:Vector2) -> int:
 	return whales[square_id].get_progress(grid.x, grid.y)
 
 
+func exists_bone(square_id:int, position:Vector2) -> bool:
+	if not whales.has(square_id):
+		return false
+	var grid = _get_nearest_grid(position)
+	return whales[square_id].get_clear_progress(grid.x, grid.y) == Whale.PROGRESS_CLEAR
+
+
 func lip_block(block_name:String) -> void:
 	if not whales.has(_square_id): return
 
