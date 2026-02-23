@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ylwgg1mn87j8"]
+[gd_scene load_steps=32 format=3 uid="uid://ylwgg1mn87j8"]
 
 [ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_0b4ue"]
 [ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://scripts/level.gd" id="1_i2t4f"]
@@ -14,7 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://bwnkv0muf66r3" path="res://arts_debug/whale_debug/skin.png" id="10_2orkt"]
 [ext_resource type="Texture2D" uid="uid://lvpndbsy5fs" path="res://arts_debug/same.png" id="11_h6smj"]
 [ext_resource type="Script" uid="uid://jl1h5cpm4k7x" path="res://scripts/employee/crab.gd" id="12_v5j5c"]
+[ext_resource type="Script" uid="uid://cmyqgtldsyw0d" path="res://scripts/employee/eel.gd" id="13_4c15r"]
 [ext_resource type="Texture2D" uid="uid://duj83pgrlvrbt" path="res://arts_debug/kani.png" id="13_5pxul"]
+[ext_resource type="Texture2D" uid="uid://b1njyp15wa451" path="res://arts_debug/unagi.png" id="13_fedht"]
 [ext_resource type="Script" uid="uid://bnxqent27pn8i" path="res://scripts/input/interact.gd" id="17_fedht"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5pxul"]
@@ -205,6 +207,34 @@ wait_time = 0.5
 one_shot = true
 
 [node name="Label" type="Label" parent="Employees/Crab"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Eel" type="Node2D" parent="Employees"]
+position = Vector2(494, 417)
+script = ExtResource("13_4c15r")
+
+[node name="Sprite2D" type="Sprite2D" parent="Employees/Eel"]
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("13_fedht")
+
+[node name="Timer" type="Timer" parent="Employees/Eel"]
+wait_time = 0.5
+one_shot = true
+
+[node name="Label" type="Label" parent="Employees/Eel"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
