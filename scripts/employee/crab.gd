@@ -76,11 +76,17 @@ func _process(delta: float) -> void:
 
 func _clip_position_and_velocity():
 	if position.x < 0:
-		square_id -= 1
-		position.x += viewport_rect.size.x
+		if whales.exists_whale(square_id - 1):
+			square_id -= 1
+			position.x += viewport_rect.size.x
+		else:
+			position.x = 0
 	elif position.x > viewport_rect.size.x:
-		square_id += 1
-		position.x -= viewport_rect.size.x
+		if whales.exists_whale(square_id + 1):
+			square_id += 1
+			position.x -= viewport_rect.size.x
+		else:
+			position.x = viewport_rect.size.x
 	if position.y > max_y:
 		position.y = max_y
 		vel.y = 0

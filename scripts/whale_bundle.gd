@@ -31,6 +31,10 @@ func get_progress(square_id:int, position:Vector2) -> int:
 	return whales[square_id].get_progress(grid.x, grid.y)
 
 
+func exists_whale(square_id:int) -> bool:
+	return whales.has(square_id)
+
+
 func exists_bone(square_id:int, position:Vector2) -> bool:
 	if not whales.has(square_id):
 		return false

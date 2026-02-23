@@ -29,7 +29,7 @@ func _ready() -> void:
 		square.position.x = pivot + i * width
 		squares.append(square)
 
-	level = find_parent("*Level*")
+	level = find_parent("Level")
 	timer = $Timer
 	timer.timeout.connect(_on_timer_timeout)
 

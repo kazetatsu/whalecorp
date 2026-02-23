@@ -20,3 +20,10 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if visible != (level.get_square_id() == square_id):
 		visible = !visible
+
+
+func _try_switch_visibility() -> bool:
+	if visible != (level.get_square_id() == square_id):
+		visible = !visible
+		return true
+	return false

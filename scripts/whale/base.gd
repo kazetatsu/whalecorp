@@ -30,21 +30,21 @@ var blocks:Array[WhaleBlock]
 func _init(name:String) -> void:
 	self.name = name
 	blocks = []
-	var file = FileAccess.open("res://whales/" + name + "/params.json", FileAccess.READ)
-	if file:
-		var json = JSON.new()
-		var res = json.parse(file.get_as_text())
-		file.close()
-		if res == OK:
-			var transform = json.data["transform"]
-			position = Vector2(transform[0], transform[1])
-			scale = transform[2]
-			for raw_block:Array in json.data["blocks"]:
-				var block = WhaleBlock.new()
-				block.name = raw_block[0]
-				block.position = Vector2(raw_block[1], raw_block[2])
-				blocks.append(block)
-	print(blocks)
+	#var file = FileAccess.open("res://whales/" + name + "/params.json", FileAccess.READ)
+	#if file:
+		#var json = JSON.new()
+		#var res = json.parse(file.get_as_text())
+		#file.close()
+		#if res == OK:
+			#var transform = json.data["transform"]
+			#position = Vector2(transform[0], transform[1])
+			#scale = transform[2]
+			#for raw_block:Array in json.data["blocks"]:
+				#var block = WhaleBlock.new()
+				#block.name = raw_block[0]
+				#block.position = Vector2(raw_block[1], raw_block[2])
+				#blocks.append(block)
+	#print(blocks)
 	var progress_arr = []
 	var clear_arr = []
 	for i in Whale.HEIGHT * Whale.WIDTH:
