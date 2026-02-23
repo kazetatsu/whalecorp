@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://0ldoiari4mug"]
+
+[ext_resource type="Script" uid="uid://20nkgui2n14a" path="res://clear/toggler.gd" id="1_fw4j0"]
+[ext_resource type="Script" uid="uid://c6aloffwxampg" path="res://clear/manager.gd" id="2_3dks0"]
+[ext_resource type="Script" uid="uid://ci02i3odbidyu" path="res://clear/spawner.gd" id="3_isjud"]
+[ext_resource type="Script" uid="uid://bo0hw26q3tngq" path="res://clear/whale.gd" id="4_2w3nx"]
+
+[node name="Clear" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("2_3dks0")
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0.27058825)
+texture_filter = 1
+layout_mode = 0
+offset_left = 335.0
+offset_top = 256.0
+offset_right = 513.0
+offset_bottom = 441.0
+theme_override_font_sizes/font_size = 50
+text = "SKIN"
+script = ExtResource("1_fw4j0")
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Spawner" type="TextEdit" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 156.0
+offset_top = 290.0
+offset_right = 711.0
+offset_bottom = 407.0
+theme_override_font_sizes/font_size = 70
+script = ExtResource("3_isjud")
+
+[node name="whale" type="Sprite2D" parent="."]
+script = ExtResource("4_2w3nx")
+
+[connection signal="hided" from="Spawner" to="." method="_on_spawner_hided"]
+[connection signal="hided" from="Spawner" to="whale" method="_on_spawner_hided"]
+[connection signal="showed" from="Spawner" to="." method="_on_spawner_showed"]
