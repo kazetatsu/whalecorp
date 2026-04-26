@@ -1,6 +1,6 @@
 extends Node2D
 
-var square_id:int = 0
+var room:int = 0
 
 var original_square:Sprite2D
 var squares:Array[Sprite2D]
@@ -9,7 +9,7 @@ var pivot:float
 var num:int
 var vel:float
 
-var level:Node2D
+var level:Level
 var timer:Timer
 
 
@@ -39,9 +39,9 @@ func _process(dt: float) -> void:
 	if not timer.is_stopped():
 		position.x -= vel * dt
 	else:
-		if square_id < level.get_square_id():
+		if room < level.get_room():
 			_start_shift_right()
-		if square_id > level.get_square_id():
+		if room > level.get_room():
 			_start_shift_left()
 
 
@@ -69,9 +69,9 @@ func _on_timer_timeout() -> void:
 		for square in squares:
 			square.position.x -= width
 		squares.pop_front().queue_free()
-		square_id += 1
+		room += 1
 	else:
 		for square in squares:
 			square.position.x += width
 		squares.pop_back().queue_free()
-		square_id -= 1
+		room -= 1

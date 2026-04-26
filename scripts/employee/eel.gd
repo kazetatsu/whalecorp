@@ -3,7 +3,7 @@ extends Employee
 @export var speed:float = 500
 @export var near_dist:float = 50
 
-var whales:WhaleBundle
+var wb:WhaleBridge
 
 #@onready var anim:AnimatedSprite2D = $AnimatedSprite2D
 var timer:Timer
@@ -27,11 +27,12 @@ func set_follow_target(node:Node2D) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	whales = find_parent("Level").find_child("Whales")
+	super._ready()
+
+	wb = level.find_child("Whales")
 	timer = $Timer
 	timer.timeout.connect(_on_timer_timeout)
 	_set_state(STATE_WAIT)
-	super._ready()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,7 +40,7 @@ func _process(delta: float) -> void:
 	if follow_target != null:
 		# Differenece of position
 		var dp:Vector2 = follow_target.position - position
-		dp.x += (follow_target.square_id - square_id) * viewport_rect.size.x
+		dp.x += (follow_target.room - room) * viewport_rect.size.x
 
 		# Too far from president => Follow president.
 		if dp.length_squared() > near_dist ** 2:
@@ -59,14 +60,14 @@ func _process(delta: float) -> void:
 
 func _clip_position():
 	if position.x < 0:
-		if whales.exists_whale(square_id - 1):
-			square_id -= 1
+		if wb.get_whale(room - 1) != null:
+			room -= 1
 			position.x += viewport_rect.size.x
 		else:
 			position.x = 0
 	elif position.x > viewport_rect.size.x:
-		if whales.exists_whale(square_id + 1):
-			square_id += 1
+		if wb.get_whale(room + 1) != null:
+			room += 1
 			position.x -= viewport_rect.size.x
 		else:
 			position.x = viewport_rect.size.x
@@ -78,7 +79,7 @@ func _start_move():
 
 
 func _stop_move():
-	if whales.get_progress(square_id, position) == Whale.PROGRESS_MEAT:
+	if wb.get_step(room, position) == Whale.STEP_MEAT:
 		_set_state(STATE_EAT)
 	else:
 		_set_state(STATE_FOLLOW)
@@ -86,7 +87,7 @@ func _stop_move():
 
 
 func _on_timer_timeout():
-	whales.set_progress(square_id, position, Whale.PROGRESS_BONE)
+	wb.set_step(room, position, Whale.STEP_BONE)
 	_set_state(STATE_FOLLOW)
 
 

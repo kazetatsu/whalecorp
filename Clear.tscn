@@ -1,15 +1,199 @@
 [gd_scene load_steps=5 format=3 uid="uid://0ldoiari4mug"]
 
-[ext_resource type="Script" uid="uid://20nkgui2n14a" path="res://clear/toggler.gd" id="1_fw4j0"]
-[ext_resource type="Script" uid="uid://c6aloffwxampg" path="res://clear/manager.gd" id="2_3dks0"]
-[ext_resource type="Script" uid="uid://ci02i3odbidyu" path="res://clear/spawner.gd" id="3_isjud"]
-[ext_resource type="Script" uid="uid://bo0hw26q3tngq" path="res://clear/whale.gd" id="4_2w3nx"]
+[sub_resource type="GDScript" id="GDScript_u3ar6"]
+script/source = "extends Control
+
+var dx:float
+var dy:float
+
+var clear_map:Array[Array]
+var toggles:Array[Array]
+
+var whale_name:String
+
+func _ready() -> void:
+	toggles = []
+	var toggler_original:ClearToggle = $Button
+	var d = get_viewport_rect().size
+	dx = d.x / Whale.WIDTH
+	dy = d.y / Whale.HEIGHT
+	for x in Whale.WIDTH:
+		toggles.append([])
+		for y in Whale.HEIGHT:
+			var toggler = toggler_original.duplicate()
+			add_child(toggler)
+			toggler.position.x = x * dx
+			toggler.position.y = y * dy
+			toggler._x = x
+			toggler._y = y
+			toggles[x].append(toggler)
+			toggler.increment.connect(_on_toggler_increment)
+	toggler_original.queue_free()
+
+	clear_map = []
+	for x in Whale.WIDTH:
+		clear_map.append([])
+		for y in Whale.HEIGHT:
+			clear_map[x].append(0)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_toggler_increment(x:int, y:int) -> void:
+	clear_map[x][y] += 1
+	clear_map[x][y] %= 4
+	var text:String
+	match clear_map[x][y]:
+		Whale.PROGRESS_SKIN:
+			text = \"SKIN\"
+		Whale.PROGRESS_MEAT:
+			text = \"MEAT\"
+		Whale.PROGRESS_BONE:
+			text = \"BONE\"
+		Whale.PROGRESS_CLEAR:
+			text = \"CLEAR\"
+	toggles[x][y].text = text
+
+
+func _on_spawner_showed() -> void:
+	for x in Whale.WIDTH:
+		for y in Whale.HEIGHT:
+			toggles[x][y].hide()
+
+
+func _on_spawner_hided(_whale_name:String) -> void:
+	whale_name = _whale_name
+	for x in Whale.WIDTH:
+		for y in Whale.HEIGHT:
+			toggles[x][y].show()
+"
+
+[sub_resource type="GDScript" id="GDScript_fw4j0"]
+script/source = "extends Button
+
+class_name ClearToggle
+
+signal increment(x:int,y:int)
+
+var _x:int
+var _y:int
+
+var cnt := 0
+
+func _ready() -> void:
+	pressed.connect(_on_pressed)
+
+
+func _process(delta: float) -> void:
+	if cnt < 4:
+		cnt += 1
+	if cnt == 3:
+		var s = get_viewport_rect().size / get_rect().size
+		scale.x = s.x / Whale.WIDTH
+		scale.y = s.y / Whale.HEIGHT
+
+
+func _on_pressed() -> void:
+	increment.emit(_x, _y)
+"
+
+[sub_resource type="GDScript" id="GDScript_3dks0"]
+script/source = "extends TextEdit
+
+class_name ClearSpawner
+
+signal showed
+signal hided(whale_name:String)
+
+func _ready() -> void:
+	hide()
+
+
+func _process(_delta: float) -> void:
+	pass
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(\"ui_accept\"):
+		if visible:
+			hide()
+			var dir = \"res://whales/%s/\" % text
+			var exists = FileAccess.file_exists(dir + \"skin.png\") \\
+					and FileAccess.file_exists(dir + \"meat.png\") \\
+					and FileAccess.file_exists(dir + \"bone.png\") \\
+					and FileAccess.file_exists(dir + \"clear.png\")
+			if exists:
+				hided.emit(text)
+			else:
+				hided.emit(\"\")
+		else:
+			show()
+			showed.emit()
+"
+
+[sub_resource type="GDScript" id="GDScript_isjud"]
+script/source = "extends Sprite2D
+
+var p := Vector2.ZERO
+var s:float = 0
+
+var _whale_name:String
+var progress:int = 0
+
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+func _process(_delta: float) -> void:
+	position += p
+	scale += s * 0.01 * Vector2.ONE
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(\"ui_up\") or event.is_action_released(\"ui_down\"):
+		p.y -= 1
+	elif event.is_action_released(\"ui_up\") or event.is_action_pressed(\"ui_down\"):
+		p.y += 1
+	elif event.is_action_pressed(\"ui_left\") or event.is_action_released(\"ui_right\"):
+		p.x -= 1
+	elif event.is_action_released(\"ui_left\") or event.is_action_pressed(\"ui_right\"):
+		p.x += 1
+	elif event.is_action_pressed(\"ui_home\") or event.is_action_released(\"ui_end\"):
+		s += 1
+	elif event.is_action_pressed(\"ui_end\") or event.is_action_released(\"ui_home\"):
+		s -= 1
+	elif event.is_action_pressed(\"ui_select\"):
+		progress += 1
+		progress %= 4
+		var path = \"res://whales/\" + _whale_name + \"/{}.png\"
+		if progress == Whale.PROGRESS_SKIN:
+			path = path.format([\"skin\"])
+		elif progress == Whale.PROGRESS_MEAT:
+			path = path.format([\"meat\"])
+		elif progress == Whale.PROGRESS_BONE:
+			path = path.format([\"bone\"])
+		elif progress == Whale.PROGRESS_CLEAR:
+			path = path.format([\"clear\"])
+		texture = ImageTexture.create_from_image(load(path))
+
+
+func _on_spawner_hided(whale_name: String) -> void:
+	if whale_name == \"\": return
+
+	_whale_name = whale_name
+	progress = 0
+	var img = Image.load_from_file(\"res://whales/%s/skin.png\" % _whale_name)
+	texture = ImageTexture.create_from_image(img)
+"
 
 [node name="Clear" type="Control"]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("2_3dks0")
+script = SubResource("GDScript_u3ar6")
 
 [node name="Button" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0.27058825)
@@ -21,7 +205,7 @@ offset_right = 513.0
 offset_bottom = 441.0
 theme_override_font_sizes/font_size = 50
 text = "SKIN"
-script = ExtResource("1_fw4j0")
+script = SubResource("GDScript_fw4j0")
 
 [node name="Node" type="Node" parent="."]
 
@@ -33,10 +217,10 @@ offset_top = 290.0
 offset_right = 711.0
 offset_bottom = 407.0
 theme_override_font_sizes/font_size = 70
-script = ExtResource("3_isjud")
+script = SubResource("GDScript_3dks0")
 
 [node name="whale" type="Sprite2D" parent="."]
-script = ExtResource("4_2w3nx")
+script = SubResource("GDScript_isjud")
 
 [connection signal="hided" from="Spawner" to="." method="_on_spawner_hided"]
 [connection signal="hided" from="Spawner" to="whale" method="_on_spawner_hided"]

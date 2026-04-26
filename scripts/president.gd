@@ -1,15 +1,15 @@
 extends Area2D
 
-signal requested_following(target:Node2D)
-signal left_follower
-
 const STATE_ALONE  := 0
 const STATE_FOLLOW := 1
 var state := STATE_ALONE
 
-var square_id:int = 0
+var room:int = 0
 @export var speed:float
 var spawn_pos:Vector2
+
+var eb:EmployeeBundle
+var near_employee:Employee = null
 
 var timer:Timer
 var input:InputMove
@@ -35,6 +35,8 @@ func _ready() -> void:
 	viewport_size = get_viewport_rect().size
 	spawn_pos = position
 
+	eb = level.find_child("Employees")
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -44,27 +46,26 @@ func _process(delta: float) -> void:
 
 func _ask_employees() -> void:
 	if state == STATE_ALONE:
-		requested_following.emit(self)
+		near_employee = eb.get_near_employee(self)
+		if near_employee != null:
+			near_employee.set_follow_target(self)
+			$Skin.modulate = Color.RED
+			state = STATE_FOLLOW
 	else:
-		left_follower.emit()
+		near_employee.set_follow_target(null)
 		$Skin.modulate = Color.WHITE
 		state = STATE_ALONE
-
-
-func _on_employees_started_following() -> void:
-	$Skin.modulate = Color.RED
-	state = STATE_FOLLOW
 
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.name == "RightEdge":
 		position.x = spawn_pos.x
-		square_id += 1
+		room += 1
 		set_deferred("monitoring", false)
 		timer.start()
 	elif area.name == "LeftEdge":
 		position.x = viewport_size.x - spawn_pos.x
-		square_id -= 1
+		room -= 1
 		set_deferred("monitoring", false)
 		timer.start()
 

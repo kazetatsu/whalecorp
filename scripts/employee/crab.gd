@@ -7,7 +7,7 @@ extends Employee
 var vel := Vector2.ZERO
 var max_y:float
 
-var whales:WhaleBundle
+var wb:WhaleBridge
 
 var anim:AnimatedSprite2D
 var timer:Timer
@@ -23,14 +23,14 @@ var state:int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	whales = find_parent("Level").find_child("Whales")
+	super._ready()
+
+	wb = level.find_child("Whales")
 	anim = $AnimatedSprite2D
 	timer = $Timer
 	timer.timeout.connect(_on_timer_timeout)
 	max_y = position.y
 	_update_state(false)
-
-	super._ready()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,18 +38,18 @@ func _process(delta: float) -> void:
 	position += vel * delta
 	_clip_position_and_velocity()
 
-	var progress = whales.get_progress(square_id, position)
-	var is_on_whale = (progress != Whale.PROGRESS_CLEAR) \
-					or (whales.exists_bone(square_id, position))
+	var step = wb.get_step(room, position)
+	var is_on_whale = (step != Whale.STEP_GOAL) \
+					or (wb.exists_bone(room, position))
 
 	if follow_target != null:
 		# Differenece of position
 		var dp:Vector2 = follow_target.position - position
-		dp.x += (follow_target.square_id - square_id) * viewport_rect.size.x
+		dp.x += (follow_target.room - room) * viewport_rect.size.x
 
 		# Too far from president => Follow president.
 		if dp.length_squared() <= near_dist ** 2:
-			if progress == Whale.PROGRESS_MEAT:
+			if step == Whale.STEP_MEAT:
 				_set_state(STATE_EAT)
 
 			if is_on_whale:
@@ -76,14 +76,14 @@ func _process(delta: float) -> void:
 
 func _clip_position_and_velocity():
 	if position.x < 0:
-		if whales.exists_whale(square_id - 1):
-			square_id -= 1
+		if wb.get_whale(room - 1) != null:
+			room -= 1
 			position.x += viewport_rect.size.x
 		else:
 			position.x = 0
 	elif position.x > viewport_rect.size.x:
-		if whales.exists_whale(square_id + 1):
-			square_id += 1
+		if wb.get_whale(room + 1) != null:
+			room += 1
 			position.x -= viewport_rect.size.x
 		else:
 			position.x = viewport_rect.size.x
@@ -93,8 +93,8 @@ func _clip_position_and_velocity():
 
 
 func _on_timer_timeout():
-	whales.set_progress(square_id, position, Whale.PROGRESS_BONE)
-	_update_state(whales.exists_bone(square_id, position))
+	wb.set_step(room, position, Whale.STEP_BONE)
+	_update_state(wb.exists_bone(room, position))
 
 
 func _set_state(new_state:int) -> void:

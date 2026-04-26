@@ -3,7 +3,7 @@ extends Employee
 @export var speed:float = 500
 @export var near_dist:float = 50
 
-var whales:WhaleBundle
+var wb:WhaleBridge
 
 var anim:AnimatedSprite2D
 var timer_eat:Timer
@@ -33,7 +33,9 @@ func set_follow_target(node:Node2D) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	whales = find_parent("Level").find_child("Whales")
+	super._ready()
+
+	wb = level.find_child("Whales")
 	anim = $AnimatedSprite2D
 	timer_eat = $TimerEat
 	timer_eat.timeout.connect(_on_timer_eat_timeout)
@@ -43,7 +45,6 @@ func _ready() -> void:
 	area.area_entered.connect(_on_area2d_entered)
 	area.area_exited.connect(_on_area2d_exited)
 	_set_state(STATE_WAIT)
-	super._ready()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,7 +52,7 @@ func _process(delta: float) -> void:
 	if follow_target != null:
 		# Differenece of position
 		var dp:Vector2 = follow_target.position - position
-		dp.x += (follow_target.square_id - square_id) * viewport_rect.size.x
+		dp.x += (follow_target.room - room) * viewport_rect.size.x
 
 		# Too far from president => Follow president.
 		if dp.length_squared() > near_dist ** 2:
@@ -69,10 +70,10 @@ func _process(delta: float) -> void:
 
 func _clip_position():
 	if position.x < 0:
-		square_id -= 1
+		room -= 1
 		position.x += viewport_rect.size.x
 	elif position.x > viewport_rect.size.x:
-		square_id += 1
+		room += 1
 		position.x -= viewport_rect.size.x
 
 
@@ -94,7 +95,7 @@ func _stop_move():
 			_set_state(STATE_PUT)
 		else:
 			_set_state(STATE_CARRY)
-	elif whales.get_progress(square_id, position) == Whale.PROGRESS_SKIN:
+	elif wb.get_step(room, position) == Whale.STEP_SKIN:
 		_set_state(STATE_EAT)
 	else:
 		_set_state(STATE_FOLLOW)
@@ -102,18 +103,18 @@ func _stop_move():
 
 
 func _on_timer_eat_timeout():
-	whales.set_progress(square_id, position, Whale.PROGRESS_MEAT)
+	wb.set_step(room, position, Whale.STEP_MEAT)
 	_set_state(STATE_FOLLOW)
 
 
 func _on_timer_pull_timeout():
 	if state == STATE_PULL:
-		whales.lip_block(block.name)
+		#whales.lip_block(block.name)
 		block.get_child(0).queue_free() # Remove Area2D of block (= no more collision)
 		block.reparent(self)
 		_set_state(STATE_CARRY)
 	elif state == STATE_PUT:
-		whales.put_block(block.name)
+		#whales.put_block(block.name)
 		block.queue_free()
 		block = null
 		_stop_move()

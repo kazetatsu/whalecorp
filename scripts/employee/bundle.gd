@@ -1,7 +1,6 @@
 extends Node
 
-signal started_following
-signal near_target
+class_name EmployeeBundle
 
 @export var dist_near = 50.0
 
@@ -17,20 +16,15 @@ func _process(_delta: float) -> void:
 	pass
 
 
-func _on_president_requested_following(target:Node2D) -> void:
+func get_near_employee(target:Node2D) -> Employee:
 	var nearest_employee:Employee = null
 	var dist_min = dist_near
 	for employee in get_children():
-		if employee.square_id == level.get_square_id():
+		if employee.room == level.get_room():
 			var dist = target.position.distance_to(employee.position)
 			if dist < dist_min:
 				nearest_employee = employee
 				dist_min = dist
-	if not nearest_employee == null:
-		nearest_employee.set_follow_target(target)
-		started_following.emit()
 
-
-func _on_president_left_follower() -> void:
-	for employee:Employee in get_children():
-		employee.set_follow_target(null)
+	if nearest_employee == null: return null
+	return nearest_employee
