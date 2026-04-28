@@ -103,7 +103,7 @@ func _stop_move():
 
 
 func _on_timer_eat_timeout():
-	wb.set_step(room, position, Whale.STEP_MEAT)
+	wb.eat(room, position)
 	_set_state(STATE_FOLLOW)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://ylwgg1mn87j8"]
+[gd_scene load_steps=33 format=3 uid="uid://ylwgg1mn87j8"]
 
 [ext_resource type="Texture2D" uid="uid://dodm3vxpanr4w" path="res://arts_debug/white.png" id="1_0b4ue"]
 [ext_resource type="Script" uid="uid://cs7e63asae1v6" path="res://scripts/level.gd" id="1_i2t4f"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dcw7kmqaax60r" path="res://scripts/president.gd" id="3_f2txt"]
 [ext_resource type="Script" uid="uid://br3612dkhsou8" path="res://scripts/input/move.gd" id="4_1ainy"]
 [ext_resource type="Script" uid="uid://c0jkndtu73htk" path="res://scripts/employee/shark.gd" id="4_km5ld"]
+[ext_resource type="Script" uid="uid://n2mwpn04s41" path="res://scripts/whale/vis.gd" id="5_ait7k"]
 [ext_resource type="Script" uid="uid://o86o41onun1g" path="res://scripts/mini_map_scroller.gd" id="5_f2txt"]
 [ext_resource type="Texture2D" uid="uid://o6o6cp2ufcvw" path="res://arts_debug/whale_debug/bone.png" id="6_h6smj"]
 [ext_resource type="Script" uid="uid://gb4xnpwvmy54" path="res://scripts/whale/bridge.gd" id="9_2orkt"]
@@ -129,41 +130,42 @@ texture = ExtResource("1_u52ul")
 texture_filter = 1
 script = ExtResource("9_2orkt")
 
-[node name="ClearWhale" type="Sprite2D" parent="Whales"]
+[node name="Vis" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis"]
 clip_children = 1
 centered = false
 
-[node name="Bone" type="Sprite2D" parent="Whales"]
+[node name="Bone" type="Sprite2D" parent="Whales/Vis"]
 clip_children = 1
 centered = false
 
-[node name="Whale" type="Sprite2D" parent="Whales/Bone"]
+[node name="Whale" type="Sprite2D" parent="Whales/Vis/Bone"]
 position = Vector2(427, 358)
 scale = Vector2(0.48399997, 0.48399997)
 texture = ExtResource("6_h6smj")
 centered = false
 
-[node name="Meat" type="Sprite2D" parent="Whales"]
+[node name="Meat" type="Sprite2D" parent="Whales/Vis"]
 clip_children = 1
 centered = false
 
-[node name="Whale" type="Sprite2D" parent="Whales/Meat"]
+[node name="Whale" type="Sprite2D" parent="Whales/Vis/Meat"]
 position = Vector2(427, 358)
 scale = Vector2(0.48399997, 0.48399997)
 texture = ExtResource("9_8cye3")
 centered = false
 
-[node name="Skin" type="Sprite2D" parent="Whales"]
+[node name="Skin" type="Sprite2D" parent="Whales/Vis"]
 clip_children = 1
 centered = false
 
-[node name="Whale" type="Sprite2D" parent="Whales/Skin"]
+[node name="Whale" type="Sprite2D" parent="Whales/Vis/Skin"]
 position = Vector2(427, 358)
 scale = Vector2(0.484, 0.484)
 texture = ExtResource("10_2orkt")
 centered = false
-
-[node name="Blocks" type="Node2D" parent="Whales"]
 
 [node name="Employees" type="Node" parent="."]
 script = ExtResource("2_n6hdu")

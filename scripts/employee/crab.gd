@@ -93,7 +93,7 @@ func _clip_position_and_velocity():
 
 
 func _on_timer_timeout():
-	wb.set_step(room, position, Whale.STEP_BONE)
+	wb.eat(room, position)
 	_update_state(wb.exists_bone(room, position))
 
 

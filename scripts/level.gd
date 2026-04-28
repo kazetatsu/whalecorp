@@ -10,7 +10,7 @@ var display_target:Node2D
 func get_room() -> int:
 	return display_target.room
 
-var room:int = 0
+var room:int = -1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

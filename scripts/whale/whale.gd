@@ -98,7 +98,11 @@ func get_step(x:int, y:int) -> int:
 
 
 func set_step(x:int, y:int, step:int) -> void:
-		_write_steps(prgr_steps, x, y, step)
+	_write_steps(prgr_steps, x, y, step)
+
+
+func exists_bone(x:int, y:int) -> bool:
+	return _seek_steps(goal_steps, x, y) == STEP_GOAL
 
 
 func get_image_texture(step:int) -> ImageTexture:
