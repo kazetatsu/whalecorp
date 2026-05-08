@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0w77i4vws3mc"
-path="res://.godot/imported/skin.png-07bd4526505a276fe795d15b2a163068.ctex"
+uid="uid://dkkv84vnimxir"
+path="res://.godot/imported/bone.png-940fe0e6dd4d8a5e00a29fd78fc47783.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://whales/debug/skin.png"
-dest_files=["res://.godot/imported/skin.png-07bd4526505a276fe795d15b2a163068.ctex"]
+source_file="res://whales/debug_head/bone.png"
+dest_files=["res://.godot/imported/bone.png-940fe0e6dd4d8a5e00a29fd78fc47783.ctex"]
 
 [params]
 

@@ -6,8 +6,9 @@ var level:Level
 
 var whales:Array[Whale]
 
-var wv_original:WhaleVis
+const MAX_VIS:int = 8
 var wvs:Array[WhaleVis]
+
 
 func eat(room:int, position:Vector2) -> void:
 	var room_whales:Array[Whale] = get_all_whales(room)
@@ -15,10 +16,11 @@ func eat(room:int, position:Vector2) -> void:
 
 	var grid = _get_nearest_grid(position)
 	for i in len(room_whales):
-		var step = room_whales[i].get_step(grid.x, grid.y)
+		var v:Vector2i = grid - room_whales[i].offset
+		var step = room_whales[i].get_step(v.x, v.y)
 		if step != Whale.STEP_GOAL:
-			room_whales[i].set_step(grid.x, grid.y, step+1)
-			wvs[i].set_step(grid.x, grid.y, step+1)
+			room_whales[i].set_step(v.x, v.y, step+1)
+			wvs[i].set_step(v.x, v.y, step+1)
 			return
 
 
@@ -29,7 +31,8 @@ func get_step(room:int, position:Vector2) -> int:
 
 	var grid = _get_nearest_grid(position)
 	for whale in room_whales:
-		var step = whale.get_step(grid.x, grid.y)
+		var v:Vector2i = grid - whale.offset
+		var step = whale.get_step(v.x, v.y)
 		if step != Whale.STEP_GOAL:
 			return step
 
@@ -69,14 +72,29 @@ func _get_nearest_grid(position:Vector2) -> Vector2i:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	level = find_parent("Level")
+
+	whales = []
 	var w = Whale.new("debug0")
-	w.specie = "debug"
+	w.specie = "debug_body"
 	w.room = 1
 	w.from_specie()
-	whales = [w]
+	whales.append(w)
 
-	wv_original = $Vis
-	wvs = [wv_original]
+	w = Whale.new("debug1")
+	w.specie = "debug_fin"
+	w.room = 1
+	w.from_specie()
+	whales.append(w)
+
+	w = Whale.new("debug2")
+	w.specie = "debug_head"
+	w.room = 1
+	w.from_specie()
+	whales.append(w)
+
+	wvs = []
+	for i in 8:
+		wvs.append(get_child(i))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -86,28 +104,15 @@ func _process(_delta: float) -> void:
 
 func _show_whale(room:int) -> void:
 	var room_whales = get_all_whales(level.get_room())
-	var n_new = len(room_whales)
-	print(n_new)
-	var n_old = len(wvs)
+	var n = len(room_whales)
 
-	if n_new == 0:
-		for i in n_old - 1:
-			wvs.pop_front().queue_free()
-		hide()
-		return
-
-	for i in n_new - n_old:
-		var wv = wv_original.duplicate()
-		wv.reparent(self)
-		wvs.push_front(wv)
-	for i in n_old - 1 - n_new:
-		wvs.pop_front().queue_free()
-
-	for i in n_new:
+	for i in n:
 		wvs[i].set_whale(room_whales[i])
 		wvs[i].reinit()
+		wvs[i].show()
 
-	show()
+	for i in range(n, MAX_VIS):
+		wvs[i].hide()
 
 
 func _on_level_update_room() -> void:

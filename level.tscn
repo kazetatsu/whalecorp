@@ -130,38 +130,297 @@ texture = ExtResource("1_u52ul")
 texture_filter = 1
 script = ExtResource("9_2orkt")
 
-[node name="Vis" type="Node2D" parent="Whales"]
+[node name="Vis0" type="Node2D" parent="Whales"]
 script = ExtResource("5_ait7k")
 
-[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis"]
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis0"]
 clip_children = 1
 centered = false
 
-[node name="Bone" type="Sprite2D" parent="Whales/Vis"]
+[node name="Bone" type="Sprite2D" parent="Whales/Vis0"]
 clip_children = 1
 centered = false
 
-[node name="Whale" type="Sprite2D" parent="Whales/Vis/Bone"]
+[node name="Whale" type="Sprite2D" parent="Whales/Vis0/Bone"]
 position = Vector2(427, 358)
 scale = Vector2(0.48399997, 0.48399997)
 texture = ExtResource("6_h6smj")
 centered = false
 
-[node name="Meat" type="Sprite2D" parent="Whales/Vis"]
+[node name="Meat" type="Sprite2D" parent="Whales/Vis0"]
 clip_children = 1
 centered = false
 
-[node name="Whale" type="Sprite2D" parent="Whales/Vis/Meat"]
+[node name="Whale" type="Sprite2D" parent="Whales/Vis0/Meat"]
 position = Vector2(427, 358)
 scale = Vector2(0.48399997, 0.48399997)
 texture = ExtResource("9_8cye3")
 centered = false
 
-[node name="Skin" type="Sprite2D" parent="Whales/Vis"]
+[node name="Skin" type="Sprite2D" parent="Whales/Vis0"]
 clip_children = 1
 centered = false
 
-[node name="Whale" type="Sprite2D" parent="Whales/Vis/Skin"]
+[node name="Whale" type="Sprite2D" parent="Whales/Vis0/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+centered = false
+
+[node name="Vis1" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis1"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Vis1"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis1/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Vis1"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis1/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Vis1"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis1/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+centered = false
+
+[node name="Vis2" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis2"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Vis2"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis2/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Vis2"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis2/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Vis2"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis2/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+centered = false
+
+[node name="Vis3" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis3"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Vis3"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis3/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Vis3"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis3/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Vis3"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis3/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+centered = false
+
+[node name="Vis4" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis4"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Vis4"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis4/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Vis4"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis4/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Vis4"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis4/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+centered = false
+
+[node name="Vis5" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis5"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Vis5"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis5/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Vis5"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis5/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Vis5"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis5/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+centered = false
+
+[node name="Vis6" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis6"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Vis6"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis6/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Vis6"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis6/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Vis6"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis6/Skin"]
+position = Vector2(427, 358)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("10_2orkt")
+centered = false
+
+[node name="Vis7" type="Node2D" parent="Whales"]
+script = ExtResource("5_ait7k")
+
+[node name="ClearWhale" type="Sprite2D" parent="Whales/Vis7"]
+clip_children = 1
+centered = false
+
+[node name="Bone" type="Sprite2D" parent="Whales/Vis7"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis7/Bone"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("6_h6smj")
+centered = false
+
+[node name="Meat" type="Sprite2D" parent="Whales/Vis7"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis7/Meat"]
+position = Vector2(427, 358)
+scale = Vector2(0.48399997, 0.48399997)
+texture = ExtResource("9_8cye3")
+centered = false
+
+[node name="Skin" type="Sprite2D" parent="Whales/Vis7"]
+clip_children = 1
+centered = false
+
+[node name="Whale" type="Sprite2D" parent="Whales/Vis7/Skin"]
 position = Vector2(427, 358)
 scale = Vector2(0.484, 0.484)
 texture = ExtResource("10_2orkt")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvqyt6nao1gov"
-path="res://.godot/imported/goal.png-6b495f1276fbd6db24dedf4a39e63d07.ctex"
+uid="uid://bmlb286lbfsl7"
+path="res://.godot/imported/skin.png-b43d6e963c8b81ec8dab5ed19a0b8652.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://whales/debug/goal.png"
-dest_files=["res://.godot/imported/goal.png-6b495f1276fbd6db24dedf4a39e63d07.ctex"]
+source_file="res://whales/debug_head/skin.png"
+dest_files=["res://.godot/imported/skin.png-b43d6e963c8b81ec8dab5ed19a0b8652.ctex"]
 
 [params]
 

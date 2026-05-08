@@ -89,15 +89,20 @@ func from_file(f:FileAccess) -> void:
 
 
 func get_step(x:int, y:int) -> int:
-		var p = _seek_steps(prgr_steps, x, y)
-		var g = _seek_steps(goal_steps, x, y)
-		if p >= g:
-			return STEP_GOAL
-		else:
-			return p
+	var ret = _validate_xy(x, y)
+	if not ret: return STEP_GOAL
+
+	var p = _seek_steps(prgr_steps, x, y)
+	var g = _seek_steps(goal_steps, x, y)
+	if p >= g:
+		return STEP_GOAL
+	else:
+		return p
 
 
 func set_step(x:int, y:int, step:int) -> void:
+	var ret = _validate_xy(x, y)
+	if not ret: return
 	_write_steps(prgr_steps, x, y, step)
 
 
@@ -162,3 +167,7 @@ func _write_steps(steps:PackedByteArray, x:int, y:int, step:int):
 	# write new progress
 	mask = (step & 0x03) << s
 	steps[i] |= mask
+
+
+func _validate_xy(x:int, y:int) -> bool:
+	return x >= 0 and x < WIDTH and y >= 0 and y < HEIGHT
